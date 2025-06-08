@@ -1,7 +1,5 @@
 package com.project.flipzone.flipzoneEntity;
 
-
-import com.project.flipzone.flipzoneDTO.AddressDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,6 +14,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private long id;
 
     @Column(nullable = false)
