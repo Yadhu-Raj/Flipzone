@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: flipzone
+  datasource:
+      url: jdbc:mysql://localhost:3306/flipzone
+      username: root
+      password: Password@123
+
+
