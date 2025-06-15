@@ -7,8 +7,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Data
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
@@ -30,7 +28,7 @@ public class UserDTO {
     private String Password;
 
     @Valid
-    private AddressDTO addressDTO;
+    private AddressDTO address;
 
     @NotBlank(message = "mobile number is required")
     private String mobileNo;

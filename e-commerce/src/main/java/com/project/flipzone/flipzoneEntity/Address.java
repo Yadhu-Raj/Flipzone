@@ -5,8 +5,6 @@ import jakarta.persistence.Embeddable;
 import lombok.*;
 
 @Data
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
