@@ -5,5 +5,9 @@ spring:
       url: jdbc:mysql://localhost:3306/flipzone
       username: root
       password: Password@123
+  security:
+    user:
+      name: admin
+      password: Password@123
 
 
