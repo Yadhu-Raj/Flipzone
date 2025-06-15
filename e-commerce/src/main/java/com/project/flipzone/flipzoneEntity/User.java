@@ -13,23 +13,23 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
-    private int age;
+    private Integer age;
 
     @Column(nullable = false,unique = true)
     private String email;
 
     @Column(nullable = false)
-    private String Password;
+    private String password;
 
     @Embedded
     private Address address;
 
-    @Column(nullable = false)
+    @Column(name = "mobile_number", nullable = false)
     private String mobileNo;
 }
