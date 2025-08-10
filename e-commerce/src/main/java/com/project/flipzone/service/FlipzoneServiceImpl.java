@@ -26,7 +26,7 @@ public class FlipzoneServiceImpl implements FlipzoneService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public String addUser(UserDTO userDTO) throws Exception {
+    public UserDTO addUser(UserDTO userDTO) throws Exception {
         log.info("Adding user with email: {}", userDTO.getEmail());
         if(flipRepo.existsByEmail(userDTO.getEmail())){
             log.warn("User with email {} already exists", userDTO.getEmail());
@@ -52,6 +52,6 @@ public class FlipzoneServiceImpl implements FlipzoneService {
         flipRepo.save(user);
 
         log.info("User {} created successfully", userDTO.getName());
-        return "Successfully created user " + userDTO.getName();
+        return userDTO;
     }
 }

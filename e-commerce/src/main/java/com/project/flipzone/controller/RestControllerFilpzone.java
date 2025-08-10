@@ -18,14 +18,14 @@ public class RestControllerFilpzone {
     private final FlipzoneService flipzoneService;
 
     @PostMapping("/adduser")
-    public ResponseEntity<String> addUser ( @Valid @RequestBody UserDTO user) throws Exception {
+    public ResponseEntity<UserDTO> addUser (@Valid @RequestBody UserDTO user) throws Exception {
         log.info("Received request to add user: {}", user.getEmail());
         try {
-            String message = flipzoneService.addUser(user);
+            UserDTO message = flipzoneService.addUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(message);
         }
         catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new UserDTO());
         }
     }
 
