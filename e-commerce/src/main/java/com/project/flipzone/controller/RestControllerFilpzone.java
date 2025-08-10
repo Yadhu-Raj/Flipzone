@@ -3,6 +3,7 @@ package com.project.flipzone.controller;
 import com.project.flipzone.flipzoneDTO.UserDTO;
 import com.project.flipzone.service.FlipzoneService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/api/v1/users")
+@AllArgsConstructor
 @RestController
-@RequiredArgsConstructor
+@RequestMapping("/api/v1/users")
 public class RestControllerFilpzone {
 
     private final FlipzoneService flipzoneService;
