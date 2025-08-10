@@ -18,18 +18,12 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private Integer age;
-
     @Column(nullable = false,unique = true)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Embedded
-    private Address address;
-
-    @Column(name = "mobile_number", nullable = false)
+    @Column(name = "mobile_number", nullable = false, unique = true)
     private String mobileNo;
 }

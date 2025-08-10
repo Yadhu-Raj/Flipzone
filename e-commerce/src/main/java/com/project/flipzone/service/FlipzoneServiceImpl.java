@@ -34,20 +34,21 @@ public class FlipzoneServiceImpl implements FlipzoneService {
         }
         User user = new User();
         modelMapper.map(userDTO,user);
-        AddressDTO addressDTO = userDTO.getAddress();
-        if (addressDTO != null) {
-            Address address = new Address(
-                    addressDTO.getStreet(),
-                    addressDTO.getCity(),
-                    addressDTO.getState(),
-                    addressDTO.getPostalCode(),
-                    addressDTO.getCountry()
-            );
-            user.setAddress(address);
-        } else {
-            log.warn("Address is null for user {}", userDTO.getEmail());
-        }
+//        AddressDTO addressDTO = userDTO.getAddress();
+//        if (addressDTO != null) {
+//            Address address = new Address(
+//                    addressDTO.getStreet(),
+//                    addressDTO.getCity(),
+//                    addressDTO.getState(),
+//                    addressDTO.getPostalCode(),
+//                    addressDTO.getCountry()
+//            );
+//            user.setAddress(address);
+//        } else {
+//            log.warn("Address is null for user {}", userDTO.getEmail());
+//        }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        log.info("user details {}", user);
         flipRepo.save(user);
 
         log.info("User {} created successfully", userDTO.getName());
