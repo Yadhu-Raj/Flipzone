@@ -1,6 +1,9 @@
 package com.project.flipzone.controller;
 
-import com.project.flipzone.flipzoneDTO.UserDTO;
+import com.project.flipzone.flipzoneDTO.LoginResponse;
+import com.project.flipzone.flipzoneDTO.RegisterRequest;
+import com.project.flipzone.flipzoneDTO.LoginRequest;
+import com.project.flipzone.flipzoneDTO.RegisterResponse;
 import com.project.flipzone.service.FlipzoneService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +21,16 @@ public class RestControllerFilpzone {
     private final FlipzoneService flipzoneService;
 
     @PostMapping("/adduser")
-    public ResponseEntity<UserDTO> addUser (@Valid @RequestBody UserDTO user) throws Exception {
+    public ResponseEntity<RegisterResponse> addUser(@Valid @RequestBody RegisterRequest user) throws Exception {
         log.info("Received request to add user: {}", user.getEmail());
-        try {
-            UserDTO message = flipzoneService.addUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(message);
-        }
-        catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new UserDTO());
-        }
+        RegisterResponse response = flipzoneService.addUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "Hello, Flipzone!";
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
+        log.info("Received login request for user: {}", loginRequest.getEmail());
+        LoginResponse response = flipzoneService.login(loginRequest);
+            return ResponseEntity.ok(response);
     }
 }

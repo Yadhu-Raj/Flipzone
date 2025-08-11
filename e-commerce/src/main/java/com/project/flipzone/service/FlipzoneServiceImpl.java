@@ -1,9 +1,12 @@
 package com.project.flipzone.service;
 
+import com.project.flipzone.exception.customException.InvalidCredentialsException;
+import com.project.flipzone.exception.customException.ResourceNotFoundException;
 import com.project.flipzone.exception.customException.UserAlreadyExistsException;
-import com.project.flipzone.flipzoneDTO.AddressDTO;
-import com.project.flipzone.flipzoneEntity.Address;
-import com.project.flipzone.flipzoneDTO.UserDTO;
+import com.project.flipzone.flipzoneDTO.LoginRequest;
+import com.project.flipzone.flipzoneDTO.LoginResponse;
+import com.project.flipzone.flipzoneDTO.RegisterRequest;
+import com.project.flipzone.flipzoneDTO.RegisterResponse;
 import com.project.flipzone.flipzoneEntity.User;
 import com.project.flipzone.flipzonerRepo.FlipRepo;
 import jakarta.transaction.Transactional;
@@ -26,32 +29,37 @@ public class FlipzoneServiceImpl implements FlipzoneService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDTO addUser(UserDTO userDTO) throws Exception {
-        log.info("Adding user with email: {}", userDTO.getEmail());
-        if(flipRepo.existsByEmail(userDTO.getEmail())){
-            log.warn("User with email {} already exists", userDTO.getEmail());
+    public RegisterResponse addUser(RegisterRequest registerRequest) throws UserAlreadyExistsException {
+        log.info("Adding user with email: {}", registerRequest.getEmail());
+        if(flipRepo.existsByEmail(registerRequest.getEmail())){
+            log.warn("User with email {} already exists", registerRequest.getEmail());
             throw new UserAlreadyExistsException("User already exists");
         }
         User user = new User();
-        modelMapper.map(userDTO,user);
-//        AddressDTO addressDTO = userDTO.getAddress();
-//        if (addressDTO != null) {
-//            Address address = new Address(
-//                    addressDTO.getStreet(),
-//                    addressDTO.getCity(),
-//                    addressDTO.getState(),
-//                    addressDTO.getPostalCode(),
-//                    addressDTO.getCountry()
-//            );
-//            user.setAddress(address);
-//        } else {
-//            log.warn("Address is null for user {}", userDTO.getEmail());
-//        }
+        modelMapper.map(registerRequest,user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         log.info("user details {}", user);
-        flipRepo.save(user);
+        user = flipRepo.save(user);
 
-        log.info("User {} created successfully", userDTO.getName());
-        return userDTO;
+        log.info("User {} created successfully", registerRequest.getName());
+        return new RegisterResponse(
+                user.getName(),
+                user.getEmail(),
+                "User registered successfully"
+        );
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest loginRequest) throws InvalidCredentialsException {
+        log.info("User login attempt for email: {}", loginRequest.getEmail());
+        User user = flipRepo.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + loginRequest.getEmail()));
+        if (passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            log.info("User {} logged in successfully", user.getEmail());
+            return new LoginResponse(user.getName());
+        } else {
+            log.warn("Invalid password for user {}", loginRequest.getEmail());
+            throw new InvalidCredentialsException("Invalid password");
+        }
     }
 }
