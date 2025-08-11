@@ -1,18 +1,14 @@
 package com.project.flipzone.flipzoneDTO;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
-
-    private Long id;
+public class RegisterRequest {
 
     @NotBlank(message = "username is required")
     private String name;
